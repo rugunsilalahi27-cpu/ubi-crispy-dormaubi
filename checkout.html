@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - DORMAUBI</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Gaya Khusus Header & Logo */
+        .navbar .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .nav-logo-img {
+            height: 45px;
+            width: auto;
+            border-radius: 8px;
+        }
+
+        /* Gaya Form Checkout */
+        .checkout-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .checkout-card {
+            background: #fff;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2d3436;
+        }
+
+        .form-group input, 
+        .form-group textarea, 
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1.5px solid #eee;
+            border-radius: 10px;
+            font-family: inherit;
+            transition: 0.3s;
+        }
+
+        .form-group input:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .total-price {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #6c5ce7;
+            border-top: 2px dashed #eee;
+            padding-top: 15px;
+            margin-top: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .checkout-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="container navbar">
+            <div class="logo">
+                <img src="logo.jpeg" class="nav-logo-img">
+                DORMA<span>UBI</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Beranda</a></li>
+                <li><a href="index.html#products">Produk</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="container section">
+        <div class="title-center">
+            <h2>Halaman <span>Checkout</span></h2>
+            <p>Selesaikan pesananmu dalam hitungan detik</p>
+        </div>
+
+        <div id="checkout-container" style="display: none;">
+            <div class="checkout-grid">
+                
+                <div class="checkout-card">
+                    <h3><i class="fas fa-shopping-basket" style="color: var(--primary);"></i> Ringkasan Pesanan</h3>
+                    <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
+                    
+                    <div class="summary-item">
+                        <span>Produk:</span>
+                        <strong id="display-nama"></strong>
+                    </div>
+                    <div class="summary-item">
+                        <span>Harga Satuan:</span>
+                        <span id="display-harga"></span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Jumlah:</span>
+                        <span id="display-qty"></span>
+                    </div>
+                    
+                    <div class="summary-item total-price">
+                        <span>Total Bayar:</span>
+                        <span id="display-total"></span>
+                    </div>
+                </div>
+
+                <div class="checkout-card">
+                    <h3><i class="fas fa-user-check" style="color: var(--primary);"></i> Data Pengiriman</h3>
+                    <form id="formCheckout" style="margin-top: 20px;">
+                        <div class="form-group">
+                            <label>Nama Lengkap</label>
+                            <input type="text" id="nama_pembeli" placeholder="Contoh: Rugun" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Alamat Lengkap</label>
+                            <textarea id="alamat" rows="3" placeholder="Nama jalan, Nomor rumah, Kec/Kota" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Metode Pembayaran</label>
+                            <select id="pembayaran">
+                                <option value="Transfer Bank (BCA/Mandiri)">Transfer Bank (BCA/Mandiri)</option>
+                                <option value="E-Wallet (OVO/Dana/GoPay)">E-Wallet (OVO/Dana/GoPay)</option>
+                                <option value="COD (Bayar di Tempat)">COD (Bayar di Tempat)</option>
+                            </select>
+                        </div>
+                        <button type="button" onclick="kirimWhatsApp()" class="btn-buy" style="width: 100%; justify-content: center; margin-top: 10px;">
+                            <i class="fab fa-whatsapp"></i> Konfirmasi via WhatsApp
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+
+        <div id="empty-cart" style="text-align: center; padding: 100px 20px;">
+            <i class="fas fa-shopping-cart" style="font-size: 50px; color: #ddd; margin-bottom: 20px;"></i>
+            <h3>Keranjangmu masih kosong</h3>
+            <p style="margin-bottom: 30px;">Yuk, pilih keripik ubi favoritmu dulu!</p>
+            <a href="index.html" class="btn-primary">Kembali Belanja</a>
+        </div>
+    </section>
+
+    <footer style="background: #2d3436; color: white; padding: 40px 0; text-align: center; margin-top: 100px;">
+        <p>&copy; 2024 Rugun Dormavita Silalahi. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // Mengambil data pesanan dari LocalStorage
+        const cartData = JSON.parse(localStorage.getItem('dormaubi_cart'));
+
+        if (cartData) {
+            document.getElementById('checkout-container').style.display = 'block';
+            document.getElementById('empty-cart').style.display = 'none';
+
+            // Menampilkan data ke layar
+            document.getElementById('display-nama').innerText = cartData.nama;
+            document.getElementById('display-harga').innerText = "Rp " + Number(cartData.harga).toLocaleString('id-ID');
+            document.getElementById('display-qty').innerText = cartData.qty + " pcs";
+            document.getElementById('display-total').innerText = "Rp " + (cartData.harga * cartData.qty).toLocaleString('id-ID');
+        }
+
+        function kirimWhatsApp() {
+            const pembeli = document.getElementById('nama_pembeli').value;
+            const alamat = document.getElementById('alamat').value;
+            const metode = document.getElementById('pembayaran').value;
+
+            if (pembeli === "" || alamat === "") {
+                alert("Mohon lengkapi Nama dan Alamat pengiriman!");
+                return;
+            }
+
+            const noWA = "6282289259620";
+            const totalHarga = (cartData.harga * cartData.qty).toLocaleString('id-ID');
+            
+            const pesan = "*HALO ADMIN DORMAUBI, SAYA MAU ORDER!*%0A%0A" +
+                "*Detail Pesanan:*%0A" +
+                "----------------------------------%0A" +
+                "📦 *Produk:* " + cartData.nama + "%0A" +
+                "🔢 *Jumlah:* " + cartData.qty + " pcs%0A" +
+                "💰 *Total:* Rp " + totalHarga + "%0A" +
+                "----------------------------------%0A%0A" +
+                "*Data Pengiriman:*%0A" +
+                "👤 *Nama:* " + pembeli + "%0A" +
+                "📍 *Alamat:* " + alamat + "%0A" +
+                "💳 *Pembayaran:* " + metode + "%0A%0A" +
+                "Mohon info nomor rekening/instruksi selanjutnya ya Min! Terima kasih.";
+
+            window.open("https://wa.me/" + noWA + "?text=" + pesan, '_blank');
+        }
+    </script>
+</body>
+</html>
